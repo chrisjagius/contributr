@@ -4,14 +4,22 @@ import Page from "./components/Page";
 import Search from "./components/Search";
 import ResultList from "./components/ResultList";
 
-import * as repoJson from "./tmp/sampleData.json";
+import GithubAdapter from "./adapters/GithubAdapter";
 
 class App extends Component {
   state = {
-    results: repoJson["data"]["repositoryOwner"]["repositories"]
+    results: {}
   };
 
+  componentDidMount() {
+    GithubAdapter.getRepos("freeCodeCamp").then(resp =>
+      this.setState({ results: resp })
+    );
+  }
+
   render() {
+    console.log(this.state.results);
+
     return (
       <Page>
         <Search />

@@ -1,5 +1,5 @@
 const fetcher = require("isomorphic-fetch");
-const CONFIG = require("../../config.json");
+const CONFIG = require("../tmp/config.json");
 
 let cursor;
 
