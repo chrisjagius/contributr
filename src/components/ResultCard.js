@@ -1,10 +1,13 @@
 import React from "react";
 
 const ResultCard = props => {
+  console.log(props);
+  const topStr = `#${props.data.number}: ${props.data.title}`;
+
   return (
-    <div>
-      <p>{props.data}</p>
-    </div>
+    <li>
+      <a href={props.data.url}>{topStr}</a>
+    </li>
   );
 };
 
