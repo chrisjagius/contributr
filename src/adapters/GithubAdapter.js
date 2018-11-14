@@ -69,28 +69,27 @@ const queryVariables = {
   ],
 }
 
-class GithubAdapter {
-  static runQuery(
-    query,
-    { headers = {}, variables = {}, fetcher = fetch } = {}
-  ) {
-    let body = { query }
+function runQuery(
+  query,
+  { headers = {}, variables = {}, fetcher = fetch } = {}
+) {
+  let body = { query }
 
-    if (Object.keys(variables).length) {
-      body.variables = variables
-    }
-
-    return fetch('https://api.github.com/graphql', {
-      method: 'POST',
-      headers: Object.assign(
-        {
-          Authorization: 'token ' + CONFIG.apiKey,
-        },
-        headers
-      ),
-      body: JSON.stringify(body),
-    }).then(res => res.json())
+  if (Object.keys(variables).length) {
+    body.variables = variables
   }
+
+  return fetcher('https://api.github.com/graphql', {
+    method: 'POST',
+    headers: Object.assign(
+      {
+        Authorization: 'token ' + CONFIG.apiKey,
+      },
+      headers
+    ),
+    body: JSON.stringify(body),
+  }).then(res => res.json())
+}
 }
 
 GithubAdapter.runQuery(initialQuery + queryFragment, {
