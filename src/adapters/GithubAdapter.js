@@ -54,7 +54,6 @@ query ($username: String!, $labels: [String!], $cursor: String!) {
 `
 
 const queryVariables = {
-  username: 'FreeCodeCamp', //needs to be dynamic
   labels: [
     'first timers welcome',
     'first-timers-only',
@@ -104,8 +103,8 @@ function setCursor(data) {
 }
 
 export default class GithubAdapter {
-  static getRepos() {
-    const variables = Object.assign({}, queryVariables)
+  static getRepos(username) {
+    const variables = Object.assign({ username }, queryVariables)
     return runQuery(initialQuery + queryFragment, {
       variables,
       fetcher,
@@ -135,7 +134,7 @@ export default class GithubAdapter {
 }
 
 // console.log({ cursor })
-// GithubAdapter.getRepos()
+// GithubAdapter.getRepos('FreeCodeCamp')
 //   .then(() => console.log({ cursor }))
 //   .then(GithubAdapter.getNextRepos)
 //   .then(console.log)
