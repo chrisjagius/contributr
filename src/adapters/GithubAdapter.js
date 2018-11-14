@@ -42,15 +42,15 @@ query ($username: String!, $labels: [String!]) {
 `
 
 const nextQuery = `
-query ($username: String!, $labels: [String!]) {
+query ($username: String!, $labels: [String!], $cursor: String!) {
   repositoryOwner(login: $username) {
-    repositories(first: 100, privacy: PUBLIC, after: ${cursor}) {
+    repositories(first: 100, privacy: PUBLIC, after: $cursor) {
 `
 
 const previousQuery = `
-query ($username: String!, $labels: [String!]) {
+query ($username: String!, $labels: [String!], $cursor: String!) {
   repositoryOwner(login: $username) {
-    repositories(first: 100, privacy: PUBLIC, before: ${cursor}) {
+    repositories(first: 100, privacy: PUBLIC, before: $cursor) {
 `
 
 const variables = {
