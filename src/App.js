@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import Page from "./components/Page";
-import Search from "./components/Search";
+// import Search from "./components/Search";
 import ResultList from "./components/ResultList";
 
 class App extends Component {
@@ -12,7 +12,7 @@ class App extends Component {
   render() {
     return (
       <Page>
-        <Search />
+        {/* <Search /> */}
         <ResultList results={this.state.results} />
       </Page>
     );
