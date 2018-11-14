@@ -1,9 +1,9 @@
-const fetcher = require('isomorphic-fetch')
-const CONFIG = require('../../config.json')
+const fetcher = require("isomorphic-fetch");
+const CONFIG = require("../../config.json");
 
-let cursor
+let cursor;
 
-const queryFrament = `
+const queryFragment = `
 pageInfo {
   hasNextPage
   hasPreviousPage
@@ -36,61 +36,63 @@ edges {
 }
 }
 }
-`
+`;
 
 const initialQuery = `
 query ($username: String!, $labels: [String!]) {
   repositoryOwner(login: $username) {
     repositories(first: 100, privacy: PUBLIC) {
-`
+`;
 
 const nextQuery = `
 query ($username: String!, $labels: [String!]) {
   repositoryOwner(login: $username) {
     repositories(first: 100, privacy: PUBLIC, after: ${cursor}) {
-`
+`;
 
 const previousQuery = `
 query ($username: String!, $labels: [String!]) {
   repositoryOwner(login: $username) {
     repositories(first: 100, privacy: PUBLIC, before: ${cursor}) {
-`
+`;
 
 const variables = {
-  username: 'SaigeXSaige',
+  username: "SaigeXSaige",
   labels: [
-    'first timers welcome',
-    'first-timers-only',
-    'Level:Starter',
-    'good first issue',
-    'beginner',
-    'good for beginner',
-    'starter bug',
-    'Good for New Contributors',
-    'good-first-contribution',
-  ],
-}
+    "first timers welcome",
+    "first-timers-only",
+    "Level:Starter",
+    "good first issue",
+    "beginner",
+    "good for beginner",
+    "starter bug",
+    "Good for New Contributors",
+    "good-first-contribution"
+  ]
+};
 
 function runQuery(
   query,
   { headers = {}, variables = {}, fetcher = fetch } = {}
 ) {
-  let body = { query }
+  let body = { query };
 
   if (Object.keys(variables).length) {
-    body.variables = variables
+    body.variables = variables;
   }
 
-  return fetch('https://api.github.com/graphql', {
-    method: 'POST',
+  return fetch("https://api.github.com/graphql", {
+    method: "POST",
     headers: Object.assign(
       {
-        Authorization: 'token ' + CONFIG.apiKey,
+        Authorization: "token " + CONFIG.apiKey
       },
       headers
     ),
-    body: JSON.stringify(body),
-  }).then(res => res.json())
+    body: JSON.stringify(body)
+  }).then(res => res.json());
 }
 
-runQuery(initialQuery + queryFrament, { variables, fetcher }).then(console.log)
+runQuery(initialQuery + queryFragment, { variables, fetcher }).then(
+  console.log
+);
