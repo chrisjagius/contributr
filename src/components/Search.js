@@ -1,19 +1,31 @@
-import React from "react";
+import React, { Component } from "react";
 
-const Search = () => {
-  return (
-    <div>
-      {/* <select>
-        <option value="volvo">Volvo</option>
-        <option value="saab">Saab</option>
-        <option value="mercedes">Mercedes</option>
-        <option value="audi">Audi</option>
-      </select> */}
+class Search extends Component {
+  state = {
+    input: ""
+  };
 
-      <input type="text" placeholder="Search.." />
-      <button type="submit">Search</button>
-    </div>
-  );
-};
+  handleChange(input) {
+    this.setState({ input });
+  }
+
+  render() {
+    return (
+      <form
+        onSubmit={e => {
+          e.preventDefault();
+          this.props.handleSubmit(this.state.input);
+        }}
+      >
+        <input
+          type="text"
+          placeholder="Search.."
+          onChange={e => this.handleChange(e.target.value)}
+        />
+        <button type="submit">Search</button>
+      </form>
+    );
+  }
+}
 
 export default Search;

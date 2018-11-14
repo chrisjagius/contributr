@@ -11,18 +11,18 @@ class App extends Component {
     results: {}
   };
 
-  componentDidMount() {
-    GithubAdapter.getRepos("freeCodeCamp").then(resp =>
+  getRepos = input => {
+    GithubAdapter.getRepos(input).then(resp =>
       this.setState({ results: resp })
     );
-  }
+  };
 
   render() {
     console.log(this.state.results);
 
     return (
       <Page>
-        <Search />
+        <Search handleSubmit={input => this.getRepos(input)} />
         <ResultList results={this.state.results.nodes} />
       </Page>
     );
