@@ -1,7 +1,7 @@
-const fetcher = require('isomorphic-fetch')
-const CONFIG = require('../../config.json')
+const fetcher = require("isomorphic-fetch");
+const CONFIG = require("../../config.json");
 
-let cursor
+let cursor;
 
 const queryFragment = `
 pageInfo {
@@ -39,7 +39,7 @@ const initialQuery = `
 query ($username: String!, $labels: [String!]) {
   repositoryOwner(login: $username) {
     repositories(first: 100, privacy: PUBLIC) {
-`
+`;
 
 const nextQuery = `
 query ($username: String!, $labels: [String!], $cursor: String!) {
@@ -72,22 +72,22 @@ function runQuery(
   query,
   { headers = {}, variables = {}, fetcher = fetch } = {}
 ) {
-  let body = { query }
+  let body = { query };
 
   if (Object.keys(variables).length) {
-    body.variables = variables
+    body.variables = variables;
   }
 
   return fetcher('https://api.github.com/graphql', {
     method: 'POST',
     headers: Object.assign(
       {
-        Authorization: 'token ' + CONFIG.apiKey,
+        Authorization: "token " + CONFIG.apiKey
       },
       headers
     ),
-    body: JSON.stringify(body),
-  }).then(res => res.json())
+    body: JSON.stringify(body)
+  }).then(res => res.json());
 }
 
 function setCursor(data) {
