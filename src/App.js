@@ -1,19 +1,21 @@
 import React, { Component } from "react";
 
 import Page from "./components/Page";
-// import Search from "./components/Search";
+import Search from "./components/Search";
 import ResultList from "./components/ResultList";
+import OrgList from "./components/OrgList";
 
 class App extends Component {
   state = {
-    results: ["foo", "bar"]
+    results: []
   };
 
   render() {
+    const { results } = this.state
     return (
       <Page>
-        {/* <Search /> */}
-        <ResultList results={this.state.results} />
+        <Search />
+        {results.length ? <ResultList results={results} /> : <OrgList />}
       </Page>
     );
   }
