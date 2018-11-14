@@ -4,11 +4,23 @@ import ResultCard from "./ResultCard";
 const ResultList = props => {
   const buildResultCards = () => {
     if (props.results) {
-      const rawIssuesArr = props.results.map(result => result.issues.edges);
-      const cleanedIssuesArr = rawIssuesArr.filter(Boolean).flat();
-
+      const rawIssuesArr = props.results.map(result => {
+        return { name: result.name, data: result.issues.edges };
+      });
+      const cleanedIssuesArr = rawIssuesArr
+        .filter(obj => obj.data.length !== 0)
+        .flat();
+      console.log({ rawIssuesArr, cleanedIssuesArr });
       return cleanedIssuesArr.map(issue => {
-        return <ResultCard data={issue.node} />;
+        const resultCards = issue.data.map(obj => (
+          <ResultCard data={obj.node} />
+        ));
+        return (
+          <div>
+            <h1>{issue.name}</h1>
+            {resultCards}
+          </div>
+        );
       });
     }
   };
