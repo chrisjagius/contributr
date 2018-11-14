@@ -1,11 +1,9 @@
 import React from "react";
 
-const ResultList = () => {
-  return (
-    <div>
-      <p>This is ResultList</p>
-    </div>
-  );
+const ResultList = props => {
+  const buildResultCards = () => props.results.map(item => <p>{item}</p>);
+
+  return <div>{buildResultCards()}</div>;
 };
 
 export default ResultList;

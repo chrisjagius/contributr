@@ -5,11 +5,15 @@ import Search from "./components/Search";
 import ResultList from "./components/ResultList";
 
 class App extends Component {
+  state = {
+    results: ["foo", "bar"]
+  };
+
   render() {
     return (
       <Page>
         <Search />
-        <ResultList />
+        <ResultList results={this.state.results} />
       </Page>
     );
   }
