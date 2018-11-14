@@ -3,16 +3,14 @@ const CONFIG = require('../../config.json')
 
 let cursor
 
-const queryFrament = `
+const queryFragment = `
 pageInfo {
   hasNextPage
   hasPreviousPage
   endCursor
   startCursor
 }
-edges {
-  cursor
-  node {
+nodes {
     name
     languages(first: 1, orderBy: {field: SIZE, direction: DESC}) {
       edges {
@@ -32,7 +30,6 @@ edges {
       }
     }
   }
-}
 }
 }
 }
@@ -71,26 +68,31 @@ const variables = {
   ],
 }
 
-function runQuery(
-  query,
-  { headers = {}, variables = {}, fetcher = fetch } = {}
-) {
-  let body = { query }
+class GithubAdapter {
+  static runQuery(
+    query,
+    { headers = {}, variables = {}, fetcher = fetch } = {}
+  ) {
+    let body = { query }
 
-  if (Object.keys(variables).length) {
-    body.variables = variables
+    if (Object.keys(variables).length) {
+      body.variables = variables
+    }
+
+    return fetch('https://api.github.com/graphql', {
+      method: 'POST',
+      headers: Object.assign(
+        {
+          Authorization: 'token ' + CONFIG.apiKey,
+        },
+        headers
+      ),
+      body: JSON.stringify(body),
+    }).then(res => res.json())
   }
-
-  return fetch('https://api.github.com/graphql', {
-    method: 'POST',
-    headers: Object.assign(
-      {
-        Authorization: 'token ' + CONFIG.apiKey,
-      },
-      headers
-    ),
-    body: JSON.stringify(body),
-  }).then(res => res.json())
 }
 
-runQuery(initialQuery + queryFrament, { variables, fetcher }).then(console.log)
+GithubAdapter.runQuery(initialQuery + queryFragment, {
+  variables,
+  fetcher,
+}).then(console.log)
