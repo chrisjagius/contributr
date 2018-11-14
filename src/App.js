@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 
 import Page from "./components/Page";
-// import Search from "./components/Search";
-import ResultList from "./components/ResultList";
+import Search from "./components/Search";
+// import ResultList from "./components/ResultList";
 
 import * as repoJson from "./tmp/sampleData.json";
 
