@@ -53,8 +53,8 @@ query ($username: String!, $labels: [String!], $cursor: String!) {
     repositories(first: 100, privacy: PUBLIC, before: $cursor) {
 `
 
-const variables = {
-  username: 'SaigeXSaige',
+const queryVariables = {
+  username: 'FreeCodeCamp', //needs to be dynamic
   labels: [
     'first timers welcome',
     'first-timers-only',
@@ -65,6 +65,7 @@ const variables = {
     'starter bug',
     'Good for New Contributors',
     'good-first-contribution',
+    'help wanted',
   ],
 }
 
