@@ -6,7 +6,7 @@
           "hasNextPage": false,
           "hasPreviousPage": true
         },
-        "edges": [
+        "nodes": [
           {
             "cursor": "MTAx",
             "node": {

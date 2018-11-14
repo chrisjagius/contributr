@@ -1,11 +1,28 @@
-import React from "react";
-import ResultCard from "./ResultCard";
+import React from 'react';
+import ResultCard from './ResultCard';
 
-const ResultList = props => {
-  const buildResultCards = () =>
-    props.results.map(result => <ResultCard data={result} />);
+const ResultList = (props) => {
+	const buildResultCards = () => {
+		if (props.results) {
+			console.log(props.results);
+			const rawIssuesArr = props.results.map((result) => {
+				return { name: result.name, data: result.issues.edges };
+			});
+			const cleanedIssuesArr = rawIssuesArr.filter((obj) => obj.data.length !== 0).flat();
+			console.log({ rawIssuesArr, cleanedIssuesArr });
+			return cleanedIssuesArr.map((issue) => {
+				const resultCards = issue.data.map((obj) => <ResultCard data={obj.node} />);
+				return (
+					<div>
+						<h1>{issue.name}</h1>
+						{resultCards}
+					</div>
+				);
+			});
+		}
+	};
 
-  return <div>{buildResultCards()}</div>;
+	return <ul>{buildResultCards()}</ul>;
 };
 
 export default ResultList;

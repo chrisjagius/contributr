@@ -1,5 +1,5 @@
 const fetcher = require("isomorphic-fetch");
-const CONFIG = require("../../config.json");
+const CONFIG = require("../tmp/config.json");
 
 let cursor;
 
@@ -33,7 +33,7 @@ nodes {
 }
 }
 }
-`
+`;
 
 const initialQuery = `
 query ($username: String!, $labels: [String!]) {
@@ -45,28 +45,28 @@ const nextQuery = `
 query ($username: String!, $labels: [String!], $cursor: String!) {
   repositoryOwner(login: $username) {
     repositories(first: 100, privacy: PUBLIC, after: $cursor) {
-`
+`;
 
 const previousQuery = `
 query ($username: String!, $labels: [String!], $cursor: String!) {
   repositoryOwner(login: $username) {
     repositories(first: 100, privacy: PUBLIC, before: $cursor) {
-`
+`;
 
 const queryVariables = {
   labels: [
-    'first timers welcome',
-    'first-timers-only',
-    'Level:Starter',
-    'good first issue',
-    'beginner',
-    'good for beginner',
-    'starter bug',
-    'Good for New Contributors',
-    'good-first-contribution',
-    'help wanted',
-  ],
-}
+    "first timers welcome",
+    "first-timers-only",
+    "Level:Starter",
+    "good first issue",
+    "beginner",
+    "good for beginner",
+    "starter bug",
+    "Good for New Contributors",
+    "good-first-contribution",
+    "help wanted"
+  ]
+};
 
 function runQuery(
   query,
@@ -78,8 +78,8 @@ function runQuery(
     body.variables = variables;
   }
 
-  return fetcher('https://api.github.com/graphql', {
-    method: 'POST',
+  return fetcher("https://api.github.com/graphql", {
+    method: "POST",
     headers: Object.assign(
       {
         Authorization: "token " + CONFIG.apiKey
@@ -91,45 +91,45 @@ function runQuery(
 }
 
 function setCursor(data) {
-  const { pageInfo } = data
+  const { pageInfo } = data;
   if (pageInfo.hasNextPage) {
-    cursor = pageInfo.endCursor
+    cursor = pageInfo.endCursor;
   }
   if (pageInfo.hasPreviousPage) {
-    cursor = pageInfo.startCursor
+    cursor = pageInfo.startCursor;
   }
 
-  return data
+  return data;
 }
 
 export default class GithubAdapter {
   static getRepos(username) {
-    const variables = Object.assign({ username }, queryVariables)
+    const variables = Object.assign({ username }, queryVariables);
     return runQuery(initialQuery + queryFragment, {
       variables,
-      fetcher,
+      fetcher
     })
       .then(resp => resp.data.repositoryOwner.repositories)
-      .then(setCursor)
+      .then(setCursor);
   }
 
   static getNextRepos() {
-    const variables = Object.assign({ cursor }, queryVariables)
+    const variables = Object.assign({ cursor }, queryVariables);
     return runQuery(nextQuery + queryFragment, {
-      variables,
+      variables
     })
       .then(resp => resp.data.repositoryOwner.repositories)
-      .then(setCursor)
+      .then(setCursor);
   }
 
   static getPrevRepos() {
-    const variables = Object.assign({ cursor }, queryVariables)
+    const variables = Object.assign({ cursor }, queryVariables);
     return runQuery(previousQuery + queryFragment, {
       variables,
-      fetcher,
+      fetcher
     })
       .then(resp => resp.data.repositoryOwner.repositories)
-      .then(setCursor)
+      .then(setCursor);
   }
 }
 
