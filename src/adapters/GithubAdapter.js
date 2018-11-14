@@ -7,6 +7,8 @@ const queryFrament = `
 pageInfo {
   hasNextPage
   hasPreviousPage
+  endCursor
+  startCursor
 }
 edges {
   cursor
